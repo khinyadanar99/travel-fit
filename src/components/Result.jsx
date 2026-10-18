@@ -7,13 +7,13 @@ import TripSummaryCard from "./TripSummaryCard";
 function Result() {
   const { trip, isLoading, isError } = useContext(WeatherContext);
 
-  if (!trip.location.name || !trip.start || !trip.end) {
-    return (
-      <div className="max-w-4xl items-center">
-        <p>Enter your trip above.</p>
-      </div>
-    );
-  }
+	if (!trip.location.name || !trip.start || !trip.end) {
+		return (
+		<div className="max-w-4xl items-center">
+			<p>Enter your trip above.</p>
+		</div>
+		);
+	}
 	if (isLoading) {
 		return (
 			<div className="rounded-2xl bg-white p-8 text-center">

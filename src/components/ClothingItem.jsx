@@ -7,6 +7,7 @@ function ClothingItem({ item }) {
                 <img
                     src={clothingImages[item]}
                     alt={item}
+                    loading="lazy"
                     className="w-20 h-20 sm:h-24 sm:w-24 object-contain"
                 />
             </div>

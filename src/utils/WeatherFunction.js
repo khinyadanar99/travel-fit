@@ -105,9 +105,7 @@ export function groupWeatherByDay(tripWeather) {
 // DAILY WEATHER
 // ========================================
 
-export function getDailyWeather(dailyWeather, start, end) {
-    const startDate = dayjs(start).format("YYYY-MM-DD");
-    const endDate = dayjs(end).format("YYYY-MM-DD");
+export function getDailyWeather(dailyWeather) {
 
     return dailyWeather.time
         .map((date, index) => ({
@@ -145,12 +143,6 @@ export function getDailyWeather(dailyWeather, start, end) {
             sunset:
                 dailyWeather.sunset[index],
         }))
-        .filter((day) => {
-            return (
-                day.date >= startDate &&
-                day.date <= endDate
-            );
-        });
 }
 
 

@@ -20,9 +20,7 @@ export default function TripForm() {
     const [departureError, setDepartureError] = useState("");
     const [arrivalError, setArrivalError] = useState("");
 
-    const {setTrip, fetchTripWeather} = useContext(WeatherContext);
-
-    
+    const {setTrip} = useContext(WeatherContext);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -47,8 +45,6 @@ export default function TripForm() {
             start: departure,
             end: arrival,
         }));
-
-        await fetchTripWeather(location, departure, arrival);
 
     }
 

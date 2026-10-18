@@ -13,8 +13,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function HourlyForecast() {
 
     const {
-        dailyWeather,
-        hourlyWeatherByDay,
+        daySummary,
+        hourlyByDay,
     } = useContext(WeatherContext);
 
 
@@ -23,7 +23,7 @@ export default function HourlyForecast() {
     // ========================================
 
     const dates = Object.keys(
-        hourlyWeatherByDay || {}
+        hourlyByDay || {}
     );
 
 
@@ -50,7 +50,7 @@ export default function HourlyForecast() {
     // ========================================
 
     const selectedHours = activeDate
-        ? hourlyWeatherByDay[activeDate] || []
+        ? hourlyByDay[activeDate] || []
         : [];
 
 
@@ -58,7 +58,7 @@ export default function HourlyForecast() {
     // DAILY SUMMARY FOR SELECTED DAY
     // ========================================
 
-    const selectedDay = dailyWeather?.find(
+    const selectedDay = daySummary?.find(
         (day) => day.date === activeDate
     );
 
@@ -99,7 +99,7 @@ export default function HourlyForecast() {
                             // for this date
 
                             const summary =
-                                dailyWeather?.find(
+                                daySummary?.find(
                                     (day) =>
                                         day.date === date
                                 );
@@ -183,9 +183,6 @@ export default function HourlyForecast() {
 
                                     )}
 
-
-                                    {/* Selected indicator */}
-
                                     {isSelected && (
 
                                         <span
@@ -213,11 +210,6 @@ export default function HourlyForecast() {
                 </div>
 
             </div>
-
-
-            {/* ========================================
-                HOURLY FORECAST
-            ======================================== */}
 
             <div className="glass mt-5 sm:my-5 pt-10">
 

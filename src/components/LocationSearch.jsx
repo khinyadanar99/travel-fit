@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
-import { searchLocation } from "../api/WeatherAPI";
+import { fetchLocation } from "../api/APIs";
 import { useDebounce } from "use-debounce";
 
 export default function LocationSearch({setLocation, locationError, setLocationError}) {
@@ -23,7 +23,7 @@ export default function LocationSearch({setLocation, locationError, setLocationE
         try {
             setLoading(true);
 
-            const data = await searchLocation(value);
+            const data = await fetchLocation(value);
 
             setResults(data);
         } catch (error) {
@@ -61,43 +61,43 @@ export default function LocationSearch({setLocation, locationError, setLocationE
             />
 
             {showSuggestedLocation && locationValue.trim().length >= 1 && (
-                    <div className="absolute left-0 top-[calc(100%+8px)] z-999 w-full rounded-2xl border border-gray-200 bg-white p-3 shadow-lg">
+                <div className="absolute left-0 top-[calc(100%+8px)] z-999 w-full rounded-2xl border border-gray-200 bg-white p-3 shadow-lg">
 
-                        {loading && (
-                            <div className="p-2 text-gray-500">
-                                Searching...
-                            </div>
-                        )}
+                    {loading && (
+                        <div className="p-2 text-gray-500">
+                            Searching...
+                        </div>
+                    )}
 
-                        {!loading && results.length > 0 &&
-                            results.map((location) => (
-                                <button
-                                    key={location.id}
-                                    type="button"
-                                    onClick={() =>
-                                        handleSelectLocation(location)
-                                    }
-                                    className="w-full rounded-lg p-3 text-left hover:bg-amber-100"
-                                >
-                                    <p className="font-medium">
-                                        {location.name}
-                                    </p>
+                    {!loading && results.length > 0 &&
+                        results.map((location) => (
+                            <button
+                                key={location.id}
+                                type="button"
+                                onClick={() =>
+                                    handleSelectLocation(location)
+                                }
+                                className="w-full rounded-lg p-3 text-left hover:bg-amber-100"
+                            >
+                                <p className="font-medium">
+                                    {location.name}
+                                </p>
 
-                                    <p className="text-sm text-gray-500">
-                                        {location.admin1}
-                                        {location.admin1 && ", "}
-                                        {location.country}
-                                    </p>
-                                </button>
-                            ))}
+                                <p className="text-sm text-gray-500">
+                                    {location.admin1}
+                                    {location.admin1 && ", "}
+                                    {location.country}
+                                </p>
+                            </button>
+                        ))}
 
-                        {!loading && results.length === 0 && (
-                            <div className="p-2 text-gray-500">
-                                No UK locations found.
-                            </div>
-                        )}
-                    </div>
-                )}
+                    {!loading && results.length === 0 && (
+                        <div className="p-2 text-gray-500">
+                            No UK locations found.
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
