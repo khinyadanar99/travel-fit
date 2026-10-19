@@ -36,7 +36,7 @@ At this stage, the recommendation rules reflect my own preferences for what to w
 ### 1. Clone the repository
 
 ```bash
-git clone [https://github.com/khinyadanar99/travel-fit.git](https://github.com/khinyadanar99/travel-fit.git)
+git clone https://github.com/khinyadanar99/travel-fit.git
 cd travel-fit
 ```
 
