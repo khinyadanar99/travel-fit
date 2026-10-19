@@ -1,11 +1,16 @@
 import { useContext } from "react";
 
-import { WeatherContext } from "../context/WeatherProvider";
-import HourlyForecast from "./HourlyForecast";
-import TripSummaryCard from "./TripSummaryCard";
+import { WeatherContext } from "../context/WeatherProvider.tsx";
+import HourlyForecast from "./HourlyForecast.tsx";
+import TripSummaryCard from "./TripSummaryCard.tsx";
 
 function Result() {
-  const { trip, isLoading, isError } = useContext(WeatherContext);
+
+	const context = useContext(WeatherContext);
+
+	if (!context) return;
+
+  	const { trip, isLoading, isError } = context;
 
 	if (!trip.location.name || !trip.start || !trip.end) {
 		return (
@@ -40,12 +45,12 @@ function Result() {
 		);
 	}
 
-  return (
-    <section>
-      <TripSummaryCard />
-      <HourlyForecast />
-    </section>
-  );
+	return (
+		<section>
+		<TripSummaryCard />
+		<HourlyForecast />
+		</section>
+	);
 }
 
 export default Result;

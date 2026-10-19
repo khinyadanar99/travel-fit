@@ -1,5 +1,15 @@
 import dayjs from "dayjs";
 
+import type {
+  OpenMeteoResponse,
+  OpenMeteoDailyResponse,
+  HourlyWeather,
+  DailyWeather,
+  HourlyByDay,
+  TripSummary,
+  WeatherIcon,
+} from "../types/weather";
+
 import {
     faSun,
     faMoon,
@@ -10,17 +20,10 @@ import {
     faCloudBolt,
 } from "@fortawesome/free-solid-svg-icons";
 
-
-// ========================================
 // HOURLY WEATHER
-// ========================================
-
-export function formatHourlyWeather(weather) {
-    const dailySunrise = {};
-    const dailySunset = {};
-
-    // Create a lookup:
-    // "2026-09-09" -> sunrise/sunset for that day
+export function formatHourlyWeather(weather: OpenMeteoResponse): HourlyWeather[] {
+    const dailySunrise: Record<string, string> = {};
+    const dailySunset: Record<string, string> = {};
 
     weather.daily.time.forEach((date, index) => {
         dailySunrise[date] = weather.daily.sunrise[index];
@@ -53,39 +56,15 @@ export function formatHourlyWeather(weather) {
             windSpeed:
                 weather.hourly.wind_speed_10m[index],
 
-            // Add sunrise/sunset to hourly data
             sunrise: dailySunrise[date],
             sunset: dailySunset[date],
         };
     });
 }
 
-
-// ========================================
-// FILTER HOURLY WEATHER FOR TRIP
-// ========================================
-
-export function getTripWeather(hourlyWeather, start, end) {
-    const startDate = dayjs(start).startOf("day");
-    const endDate = dayjs(end).endOf("day");
-
-    return hourlyWeather.filter((hour) => {
-        const hourTime = dayjs(hour.time);
-
-        return (
-            !hourTime.isBefore(startDate) &&
-            !hourTime.isAfter(endDate)
-        );
-    });
-}
-
-
-// ========================================
 // GROUP HOURLY WEATHER BY DAY
-// ========================================
-
-export function groupWeatherByDay(tripWeather) {
-    const days = {};
+export function groupWeatherByDay(tripWeather: HourlyWeather[]): HourlyByDay {
+    const days: HourlyByDay = {};
 
     tripWeather.forEach((hour) => {
         const date = dayjs(hour.time).format("YYYY-MM-DD");
@@ -100,12 +79,8 @@ export function groupWeatherByDay(tripWeather) {
     return days;
 }
 
-
-// ========================================
 // DAILY WEATHER
-// ========================================
-
-export function getDailyWeather(dailyWeather) {
+export function getDailyWeather(dailyWeather: OpenMeteoDailyResponse): DailyWeather[] {
 
     return dailyWeather.time
         .map((date, index) => ({
@@ -150,7 +125,7 @@ export function getDailyWeather(dailyWeather) {
 // WHOLE TRIP SUMMARY
 // ========================================
 
-export function getTripSummary(daySummary) {
+export function getTripSummary(daySummary: DailyWeather[]): TripSummary | null {
     if (!daySummary.length) {
         return null;
     }
@@ -244,11 +219,11 @@ export function getTripSummary(daySummary) {
 // ========================================
 
 export function getWeatherIcon(
-    weatherCode,
-    time,
-    sunrise,
-    sunset
-) {
+  weatherCode: number,
+  time: string,
+  sunrise: string,
+  sunset: string
+): WeatherIcon {
     if (weatherCode === 0) {
         const currentTime = dayjs(time);
 

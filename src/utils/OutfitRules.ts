@@ -12,6 +12,8 @@ import longSleeve from "../assets/clothing/long-sleeve.png";
 import dress from "../assets/clothing/dress.png";
 import rainJacket from "../assets/clothing/rain-jacket.png";
 import tankTop from "../assets/clothing/tank-top.png";
+import woolCoat from "../assets/clothing/wool-coat.png";
+import windbreaker from "../assets/clothing/windbreaker.png";
 
 
 import jeans from "../assets/clothing/jeans.png";
@@ -48,6 +50,8 @@ export const clothingImages = {
     dress,
     "rain-jacket": rainJacket,
     "tank-top": tankTop,
+    "wool-coat": woolCoat,
+    windbreaker,
 
     jeans,
     shorts,
@@ -69,8 +73,38 @@ export const clothingImages = {
     umbrella
 };
 
+type TemperatureRule = {
+  max: number;
+  base: ClothingItemName[];
+  mid: ClothingItemName[];
+  outer: ClothingItemName[];
+  bottom: ClothingItemName[];
+  bottomLayer: ClothingItemName[];
+  shoes: ClothingItemName[];
+};
 
-const temperatureRules = {
+interface ClothingWeatherInput {
+  feelsLikeMin: number;
+  feelsLikeMax: number;
+  rainProbability: number | null;
+  totalPrecipitation: number;
+  maxWindSpeed: number;
+  weatherCode: number;
+}
+
+export type ClothingItemName = keyof typeof clothingImages;
+
+export type ClothingCategory = "base"
+  | "mid"
+  | "outer"
+  | "bottom"
+  | "bottomLayer"
+  | "shoes"
+  | "accessories" | string;
+
+export type ClothingRecommendations = Record<ClothingCategory,ClothingItemName[]>;
+
+const temperatureRules: Record<string, TemperatureRule> = {
     veryCold: {
         max: 5,
         base: ["thermal", "long-sleeve"],
@@ -143,7 +177,7 @@ const temperatureRules = {
 };
 
 
-function getTemperatureRules(feelsLike) {
+function getTemperatureRules(feelsLike: number): TemperatureRule {
     if (feelsLike <= 5) {
         return temperatureRules.veryCold;
     }
@@ -172,20 +206,24 @@ function getTemperatureRules(feelsLike) {
 }
 
 
-function addUnique(items, newItems) {
+function addUnique(items: ClothingItemName[], newItems: ClothingItemName[]): ClothingItemName[] {
     return [...new Set([...items, ...newItems])];
 }
 
 
-export function getRecommendedClothing(weather) {
+export function getRecommendedClothing(
+    weather: ClothingWeatherInput,
+): ClothingRecommendations {
     const {
         feelsLikeMin,
         feelsLikeMax,
-        rainProbability = 0,
+        rainProbability: rawRainProbability,
         totalPrecipitation = 0,
         maxWindSpeed = 0,
-        weatherCodes = [],
+        weatherCode,
     } = weather;
+
+    const rainProbability = rawRainProbability ?? 0;
 
     // Use the coldest "feels like" temperature
     // so the user is not underdressed during the coldest part of the day.
@@ -193,7 +231,7 @@ export function getRecommendedClothing(weather) {
 
     const rules = getTemperatureRules(temperature);
 
-    const recommendations = {
+    const recommendations: ClothingRecommendations = {
         base: [...rules.base],
         mid: [...rules.mid],
         outer: [...rules.outer],
@@ -254,11 +292,7 @@ export function getRecommendedClothing(weather) {
     // SNOW
     // --------------------------------
 
-    const hasSnow = weatherCodes.some(
-        (code) => code >= 71 && code <= 86
-    );
-
-    if (hasSnow) {
+    if (weatherCode >= 71 && weatherCode <= 86) {
         recommendations.outer = addUnique(
             recommendations.outer,
             ["puffer"]

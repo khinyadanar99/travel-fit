@@ -1,8 +1,8 @@
 
 import { useQuery } from "@tanstack/react-query";
-import { fetchTripImage } from "../api/APIs";
+import { fetchTripImage } from "../api/APIs.ts";
 
-export function useTripImage(location) {
+export function useTripImage(location: string | null | undefined) {
   const city = location ?? "";
 
   return useQuery({

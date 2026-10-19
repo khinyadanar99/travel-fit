@@ -1,6 +1,15 @@
-import ClothingItem from './ClothingItem';
+import ClothingItem from './ClothingItem.tsx';
+import type {
+  ClothingCategory,
+  ClothingItemName,
+} from "../utils/OutfitRules.ts";
 
-function ClothingCard({ title, items }) {
+interface ClothingCardProps {
+  title: ClothingCategory;
+  items: ClothingItemName[];
+}
+
+function ClothingCard({ title, items }: ClothingCardProps) {
     if (!items?.length) return null;
 
     return (

@@ -1,8 +1,12 @@
+import type { DailyWeather } from "../types/weather.ts";
+import { getRecommendedClothing } from "../utils/OutfitRules.ts";
+import ClothingCard from "./ClothingCard.tsx";
 
-import { getRecommendedClothing } from "../utils/OutfitRules";
-import ClothingCard from "./ClothingCard";
+interface ClothingRecommendationProps {
+  selectedDay: DailyWeather | null;
+}
 
-function ClothingRecommendation({selectedDay}) {
+function ClothingRecommendation({selectedDay}: ClothingRecommendationProps) {
 
   if(!selectedDay) return;
     
@@ -23,4 +27,4 @@ function ClothingRecommendation({selectedDay}) {
   )
 }
 
-export default ClothingRecommendation
+export default ClothingRecommendation;

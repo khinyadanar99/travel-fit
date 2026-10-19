@@ -1,6 +1,10 @@
-import { clothingImages } from "../utils/OutfitRules";
+import { clothingImages, type ClothingItemName} from "../utils/OutfitRules.ts";
 
-function ClothingItem({ item }) {
+interface ClothingItemProps {
+  item: ClothingItemName;
+}
+
+function ClothingItem({ item }: ClothingItemProps) {
     return (
         <div className="flex flex-col items-center">
             <div className="flex w-24 h-28 md:h-32 sm:w-28 items-center justify-center">

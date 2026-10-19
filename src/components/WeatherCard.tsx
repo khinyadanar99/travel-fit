@@ -1,13 +1,13 @@
-
-
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { getWeatherIcon } from "../utils/WeatherFunction";
+import { getWeatherIcon } from "../utils/WeatherFunction.ts";
 import dayjs from 'dayjs'
+import type { HourlyWeather } from "../types/weather.ts";
 
+interface WeatherCardProps {
+  hour: HourlyWeather;
+}
 
-function WeatherCard({hour}) {
+function WeatherCard({hour}: WeatherCardProps) {
 
   return (
 
@@ -21,7 +21,7 @@ function WeatherCard({hour}) {
 
       	{/* Weather icon */}
 		<div className="mb-5 flex justify-center">
-			<FontAwesomeIcon icon={getWeatherIcon(hour.weatherCode, hour.time, hour.sunrise, hour.sunset)} className="text-3xl"/>
+			<FontAwesomeIcon icon={getWeatherIcon(hour.weatherCode, hour.time, hour.sunrise?? "", hour.sunset?? "")} className="text-3xl"/>
 		</div>
 
 

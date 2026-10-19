@@ -1,16 +1,16 @@
-import dayjs from "dayjs";
 
-export function validateLocation(location) {
+import dayjs, { type Dayjs } from "dayjs";
+import type { TripLocation } from "../types/trip";
 
-    if (!location.name) {
-        return "Please type a valid location.";
-    }
+export function validateLocation(location: TripLocation): string {
+  if (!location.name) {
+    return "Please type a valid location.";
+  }
 
-    return "";
-
+  return "";
 }
 
-export function validateDepartureDate(departure) {
+export function validateDepartureDate(departure: Dayjs | null): string {
     const today = dayjs().startOf("day");
     const maxForecastDate = today.add(16, "day");
 
@@ -29,12 +29,16 @@ export function validateDepartureDate(departure) {
     return "";
 }
 
-export function validateArrivalDate(arrival, departure) {
+export function validateArrivalDate(arrival: Dayjs | null, departure: Dayjs | null): string {
     const today = dayjs().startOf("day");
     const maxForecastDate = today.add(16, "day");
 
     if (!arrival) {
         return "Please select an arrival date.";
+    }
+
+    if (!departure) {
+        return "Please select a departure date first.";
     }
 
     if (arrival.isBefore(departure)) {
