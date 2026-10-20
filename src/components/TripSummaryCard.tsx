@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { WeatherContext } from "../context/WeatherProvider.tsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUmbrella, faWind } from "@fortawesome/free-solid-svg-icons";
+import { faPerson, faTemperatureLow, faUmbrella, faWind } from "@fortawesome/free-solid-svg-icons";
 
 import locationImg from "../assets/location.png";
 import { useTripImage } from "../hooks/useTripImage.ts";
@@ -34,7 +34,7 @@ function TripSummaryCard() {
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 <div className="glass border rounded-2xl px-2 sm:px-8 py-3 flex items-center gap-3">
-                    <FontAwesomeIcon icon={faWind} />
+                    <FontAwesomeIcon icon={faTemperatureLow} />
                     <div>
                         <p>Temperature</p>
                         <p>
@@ -46,7 +46,7 @@ function TripSummaryCard() {
                 </div>
 
                 <div className="glass border rounded-2xl px-2 sm:px-8 py-3 flex items-center gap-3">
-                    <FontAwesomeIcon icon={faWind} />
+                    <FontAwesomeIcon icon={faPerson} />
                     <div>
                         <p>Feels like</p>
                         <p>
